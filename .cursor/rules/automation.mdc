@@ -1,0 +1,56 @@
+{
+  "projectRules": [
+    {
+      "description": "Architectural rules: enforce clean modular structure across backend code.",
+      "filePatterns": ["*/.js", "*/.mjs", "*/.cjs"],
+      "rules": [
+        "Controller files must only contain routing and no business logic.",
+        "Business logic must be placed in services and never duplicated.",
+        "Utility functions must be placed in a utils folder and reused instead of rewriting logic.",
+        "Models must define schema and database structure only.",
+        "No duplicate functions or duplicated data structures anywhere in the backend."
+      ]
+    },
+    {
+      "description": "Frontend professional UI and UX standards.",
+      "filePatterns": ["*/.jsx", "*/.tsx", "*/.css"],
+      "rules": [
+        "UI must follow modern SaaS design standards (OpenAI, Notion, Figma).",
+        "Components must be modular, reusable and not duplicated.",
+        "All async actions must show loading states.",
+        "UI must be responsive and mobile-friendly.",
+        "Spacing, typography and layout must be consistent."
+      ]
+    },
+    {
+      "description": "Authentication & security standards.",
+      "filePatterns": ["backend/*/.js"],
+      "rules": [
+        "Registration requires full server-side validation.",
+        "Passwords must always be hashed before storing.",
+        "Login must return meaningful error messages, never raw errors.",
+        "JWT tokens must not contain sensitive data.",
+        "Email verification is mandatory before a user can log in."
+      ]
+    },
+    {
+      "description": "AI integration formatting rules.",
+      "filePatterns": ["backend/*/.js"],
+      "rules": [
+        "AI prompts must be structured and use JSON output where possible.",
+        "Try/catch required for any AI request.",
+        "Platform mode must be included in all AI requests.",
+        "AI output must be validated before saving or returning."
+      ]
+    },
+    {
+      "description": "History consistency rules.",
+      "filePatterns": ["backend/models/*/.js", "backend/routes/*/.js"],
+      "rules": [
+        "History entries must always include: user, input, output, date, platform, and type.",
+        "Empty or incomplete history entries are not allowed.",
+        "No duplicate history entries should be created."
+      ]
+    }
+  ]
+}
