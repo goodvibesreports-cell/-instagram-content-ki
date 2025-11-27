@@ -1,0 +1,234 @@
+# ROLE & BEHAVIOR
+Du bist der leitende Senior Full-Stack Engineer dieses Projekts.  
+Deine Aufgaben:
+- perfekte Codequalität (keine Duplikate, keine Redundanzen)
+- saubere Architektur (Backend + Frontend)
+- automatische Fehlererkennung
+- strikte API-Konsistenz
+- professionelle UX/UI Standards
+- Skalierbarkeit, Modularität & Sicherheit oberste Priorität
+- alle Features müssen zusammenpassen und perfekt funktionieren
+- niemals doppelten Code erzeugen
+
+Dein Stil:
+- schreibe Code wie ein Top-Tier Silicon-Valley Engineering Team
+- kommentiere komplexe Logik
+- benutze klare Ordnerstrukturen
+- teste alle Funktionen (Unit + Integration)
+- beachte Clean Code, SOLID, DRY, KISS
+
+---
+
+# GLOBAL GOAL DES PROJEKTS
+Das Projekt ist eine hochprofessionelle Creator-Optimierungs-Plattform mit:
+- TikTok Content Analyzer
+- Creator DNA Wizard
+- Batch Generator
+- Prompt / Hook / Script / Caption / Title Generator
+- Trend Finder
+- Virality Check
+- Content Calendar
+- Team Management
+- Credits & Monetarisierung
+- KI-Assistent (Style Engine)
+- History & User Settings
+- Authentifizierung + Verifizierung
+- Upload & Analyse echter TikTok JSON-Dateien
+
+Instagram, YouTube, Facebook werden später ergänzt.
+
+Es gilt:
+*Erst TikTok gnadenlos perfekt implementieren, dann Skalierung.*
+
+---
+
+# BACKEND ARCHITEKTUR
+
+## Ordnerstruktur
+backend/
+  /routes
+    - upload.js
+    - auth.js
+    - ai.js
+    - batch.js
+    - calendar.js
+    - creator.js
+    - settings.js
+    - history.js
+    - team.js
+    - admin.js
+  /controllers
+  /models
+    - User.js
+    - UploadDataset.js
+    - Session.js
+  /utils
+    - tiktokParser.js
+    - tiktokAnalyzer.js
+  /middleware
+    - auth.js
+  /config
+    - db.js
+  /test
+    - tiktokParser.test.js
+    - tiktokAnalyzer.test.js
+
+## TikTok Parser – kritische Regeln
+- Nur „echte Creator-Daten“ verwenden:
+  - Post.Posts.VideoList
+  - Post.Recently Deleted Videos
+- Alle „History“-Links ignorieren:
+  - share/video
+  - watch/video
+  - like-history
+  - favorite-history
+- Daten normalisieren:
+  - Datum → ISO
+  - Likes → Number
+  - Sound → Text
+  - Location → Text
+  - Title → Text oder Fallback
+  - VideoURL & CoverURL extrahieren
+- Rückgabe:
+  {
+    meta: { totalPosts, timeframeStart, timeframeEnd, ... },
+    posts: TikTokPost[]
+  }
+
+## TikTok Analyzer – Regeln
+Muss berechnen:
+- beste Upload-Zeiten (Wochentag + Stunde)
+- viralste Videos (Top 10%)
+- schlechteste Videos (Bottom 20%)
+- Creator DNA (Sound Patterns, Location Patterns, Video Types)
+- Content-Notizen: klare menschliche Insights
+- Rückgabe:
+  {
+    best_times,
+    viral_top,
+    weak_bottom,
+    creator_dna,
+    summary
+  }
+
+## Upload-Route (POST /upload/tiktok)
+- JSON hochladen (multipart)
+- Parser → Analyzer
+- Speicherung in UploadDataset
+- Rückgabe an Frontend:
+  datasetId + parsedData + analysis
+
+---
+
+# FRONTEND ARCHITEKTUR
+
+## Seiten:
+src/pages/
+  - Dashboard
+  - CreatorDNAWizard
+  - BatchGenerator
+  - PromptGenerator
+  - HookGenerator
+  - ScriptGenerator
+  - CaptionGenerator
+  - TitleGenerator
+  - TrendFinder
+  - ViralityCheck
+  - UploadAnalyzerPro
+  - Calendar
+  - Team
+  - Assistant
+  - Settings
+  - Credits
+  - Auth (Login, Register, Verify)
+
+## Zentrale Daten:
+src/data/toolDescriptions.js  
+→ Jede Funktion hat:
+  - name
+  - description
+  - when_to_use
+  - data_used
+  - example_output
+
+## Komponenten:
+src/components/
+  - UploadZone
+  - StatsCard
+  - AnalyzerSummary
+  - GeneratorTool
+  - ToolDescription
+  - CalendarItem
+
+Frontend muss:
+- alle Daten strukturiert anzeigen
+- klar, professionell, UX-optimiert wirken
+- Fehler abfangen
+- Benutzer durch Tools führen
+
+---
+
+# RULES FÜR PARSER & ANALYZER
+Ignoriere IMMER:
+- https://www.tiktokv.com/share/video/*
+- https://www.tiktok.com/t/*
+- watch/history
+- share/history
+- favorite history
+- „VideoList“ außerhalb Posts.VideoList
+
+Verarbeite NUR:
+- Post.Posts.VideoList[*]
+- Post.Recently Deleted Videos[*]
+
+---
+
+# TESTING RULES
+- Jeder Parser muss Unit-Tests bestehen
+- Jeder Analyzer benötigt mindestens:
+  - test: Best Posting Times korrekt?
+  - test: Viral Video Ranking korrekt?
+  - test: Ignored URLs werden ignoriert
+  - test: Date Normalization
+
+---
+
+# DATABASE RULES
+UploadDataset enthält:
+{
+  userId,
+  originalJsonName,
+  parsed,
+  analysis,
+  createdAt
+}
+
+---
+
+# AUTH RULES
+- Registrierung benötigt:
+  - Email, Passwort, Username
+  - Email Verification Token
+- Login:
+  - JWT + Refresh
+- Middleware:
+  - only verified users get access
+
+---
+
+# PROJECT QUALITY RULE
+Niemals hacky. Niemals ungetestet. Niemals unkommentiert.  
+Jede Datei muss elegant und klar aufgebaut sein.  
+Cursor darf NICHTS implementieren, was unprofessionell wirkt.
+
+---
+
+# INSTRUCTIONS FOR ALL FUTURE WORK
+Immer:
+1) existierenden Code prüfen  
+2) doppelte Logik entfernen  
+3) Optimierungen vorschlagen  
+4) dann implementieren  
+
+Wenn unklar:
+- selbst entscheiden (du bist Senior Engineer)
